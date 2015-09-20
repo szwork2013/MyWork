@@ -8,7 +8,7 @@ http头用户验证（未来可能 基于cookie支持）
 AMD模式， 动态JS库
 服务端远程分配菜单
 
-
+ 
 安装bower 依赖库， 
 代码如下
 bower update
