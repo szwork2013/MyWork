@@ -93,9 +93,9 @@ define(['common'
                               config
                           'responseError':(response)->
                               if response.status is 401 or response.status is 403 or response.status is 0
-                                  $location.path('/user/signin')
+                                  $location.path(getRouter('signin').url)
                               if response.status is 423
-                                  $location.path('/user/lock-screen')
+                                  $location.path(getRouter('lock-screen').url)
                               $q.reject(response)
                           }
                   ])
