@@ -1,0 +1,12 @@
+
+<div class="nav-wrapper">
+    <ul id="nav"
+        class="nav"
+        data-ng-controller="NavCtrl"
+        data-slim-scroll
+        data-collapse-nav>
+        <li data-ng-repeat="item in nav|filter:{show:true}" data-ng-class="{active:local == item.url}">
+            <a href="#{{item.url}}"><i class="fa {{item.icon}}"></i><span data-ng-bind="item.text"></span> </a>
+        </li>
+    </ul>
+</div>
