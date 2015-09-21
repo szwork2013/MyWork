@@ -50,6 +50,7 @@ define(['common'
                           }
                           routeProvider:$routeProvider
                           initRouter:initRouter
+                          authMethod:angularAMD.authMethod
                       }
                   )
                   #$locationProvider.html5Mode(true);
@@ -59,7 +60,7 @@ define(['common'
                           {
                           'request':(config)->
                               config.headers = config.headers or {}
-                              if $localStorage.token
+                              if $localStorage.token && angularAMD.authMethod is 'token'
                                   config.headers.Authorization = 'Bearer ' + $localStorage.token
                               config
                           'responseError':(response)->

@@ -1,6 +1,6 @@
 define(['app','logger'],->
-    ['$scope','$localStorage','$location','Users','logger'
-        ($scope,$localStorage,$location,Users,logger)->
+    ['$scope','$localStorage','$location','Users','SiteConfig','logger'
+        ($scope,$localStorage,$location,Users,SiteConfig,logger)->
             $scope.signin = ->
                 formData = {
                     email: $scope.email,
@@ -10,7 +10,8 @@ define(['app','logger'],->
                     if res.type is false
                         logger.logError(res.data)
                     else
-                        $localStorage.token = res.data.token
+                        if SiteConfig.authMethod is 'token'
+                            $localStorage.token = res.data.token
                         $scope.$emit('reload-user',res);
                         $location.path('/')
                 ,

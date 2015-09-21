@@ -193,51 +193,27 @@ define(['angularAMD'],(angularAMD)->
           '$http', '$localStorage','SiteConfig'
           ($http, $localStorage,SiteConfig)->
               baseUrl = SiteConfig.domain
-              changeUser = (user)->
-                  angular.extend(currentUser, user)
-              urlBase64Decode = (str)->
-                  output = str.replace('-', '+').replace('_', '/')
-                  switch output.length % 4
-                      when 0
-                          break
-                      when 2
-                          output += '=='
-                          break
-                      when 3
-                          output += '='
-                          break
-                      else
-                          throw 'Illegal base64url string!'
-              getUserFromToken = ->
-                  token = $localStorage.token;
-                  user = {}
-                  if typeof token is not  'undefined'
-                      encoded = token.split('.')[1]
-                      user = JSON.parse(urlBase64Decode(encoded))
-                  user
-              currentUser = getUserFromToken()
-
               {
-              save:(data, success, error)->
-                  $http.post(baseUrl + '/signin', data).success(success).error(error)
-              signin:(data, success, error)->
-                  $http.post(baseUrl + '/authenticate', data).success(success).error(error)
-              lock:(success, error)->
-                  $http.get(baseUrl + '/lock').success(success).error(error)
-              promise:(success,error)->
-                  $http.get(baseUrl + '/promise').success(success).error(error)
-              unlock:(data, success, error)->
-                  $http.post(baseUrl + '/unlock', data).success(success).error(error)
-              setting:(data, success, error)->
-                  $http.post(baseUrl + '/setting', data).success(success).error(error)
-              chpasswd:(data, success, error)->
-                  $http.post(baseUrl + '/chpasswd', data).success(success).error(error)
-              me:(success, error)->
-                  $http.get(baseUrl + '/me').success(success).error(error)
-              logout:(success)->
-                  changeUser({})
-                  delete $localStorage.token
-                  success()
+                  save:(data, success, error)->
+                      $http.post(baseUrl + '/signin', data).success(success).error(error)
+                  signin:(data, success, error)->
+                      $http.post(baseUrl + '/authenticate', data).success(success).error(error)
+                  lock:(success, error)->
+                      $http.get(baseUrl + '/lock').success(success).error(error)
+                  promise:(success,error)->
+                      $http.get(baseUrl + '/promise').success(success).error(error)
+                  unlock:(data, success, error)->
+                      $http.post(baseUrl + '/unlock', data).success(success).error(error)
+                  setting:(data, success, error)->
+                      $http.post(baseUrl + '/setting', data).success(success).error(error)
+                  chpasswd:(data, success, error)->
+                      $http.post(baseUrl + '/chpasswd', data).success(success).error(error)
+                  me:(success, error)->
+                      $http.get(baseUrl + '/me').success(success).error(error)
+                  logout:(success)->
+                      if SiteConfig.authMethod is 'token'
+                        delete $localStorage.token
+                      success()
               }
       ])
 
