@@ -7,28 +7,10 @@ define(['common'
     ],
     (angularAMD)->
         app = angular.module('app', [
-        # Angular modules
             'ngRoute'
             'ngAnimate'
-
-#        # 3rd Party Modules
             'ui.bootstrap'
-#            'textAngular'
-#            'ngTagsInput'
             'ngStorage'
-#            'ngMessages'
-#            'ngResource'
-#            'highcharts-ng'
-
-#        # Custom modules
-#            'app.directives'
-#            'app.localization'
-#            'app.nav'
-#            'app.ui.directives'
-#            'app.ui.services'
-#            'infinite-scroll'
-#            'app.gallery'
-#            'app.chart'
         ])
         .config([
               '$routeProvider','$httpProvider','$provide'
