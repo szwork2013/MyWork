@@ -210,9 +210,11 @@ define(['angularAMD'],(angularAMD)->
                       $http.post(baseUrl + '/chpasswd', data).success(success).error(error)
                   me:(success, error)->
                       $http.get(baseUrl + '/me').success(success).error(error)
-                  logout:(success)->
+                  logout:(success,error)->
                       if SiteConfig.authMethod is 'token'
                         delete $localStorage.token
+                      else
+                          $http.get(baseUrl + '/logout').success(success).error(error)
                       success()
               }
       ])
