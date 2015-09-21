@@ -11,7 +11,7 @@
             <div class="form-container">
 
                 <section>
-                    <form class="form-horizontal text-center" ng-submit="signup()">
+                    <form class="form-horizontal form-validation text-center" ng-submit="signup()" novalidate name="usersignup">
                         <div class="form-group">
                             <div class="btn-icon-lined btn-icon-round btn-icon-sm btn-default-light">
                                 <span class="glyphicon glyphicon-envelope"></span>
@@ -21,6 +21,7 @@
                                    data-i18n="i18n-placeholder"
                                    placeholder="Email"
                                    ng-model="email"
+                                   required
                                    >
                         </div>
                         <div class="form-group">
@@ -32,6 +33,8 @@
                                    data-i18n="i18n-placeholder"
                                    placeholder="Realname"
                                    ng-model="realname"
+                                   data-ng-minlength="4"
+                                   required
                                    >
                         </div>
 
@@ -44,6 +47,8 @@
                                    data-i18n="i18n-placeholder"
                                    placeholder="Password"
                                    ng-model="password"
+                                   data-ng-minlength="6"
+                                   required
                                     >
                         </div>
 
@@ -51,7 +56,7 @@
                         <div class="form-group">
                             <p class="text-muted text-small">By clicking on Sign up, you agree to <a href="javascript:;">terms & conditions</a> and <a href="javascript:;">privacy policy</a></p>
                             <div class="divider"></div>
-                            <button type="submit" class="btn btn-primary btn-block btn-lg btn-round" data-i18n="Sign up"></button>
+                            <button type="submit" class="btn btn-primary btn-block btn-lg btn-round" data-i18n="Sign up" data-ng-disabled="usersignup.$valid==false"></button>
                         </div>
 
                     </form>
