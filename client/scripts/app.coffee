@@ -53,7 +53,7 @@ define(['common'
                           route : routes
                           publicRouter:publicRouter
                           routerRoot:routes.concat(publicRouter)
-                          domain:'http://192.168.1.106:3001',
+                          domain:'http://localhost:3001',
                           getRouter:getRouter
                           setRoutes:setRoutes
                           gallery:{
