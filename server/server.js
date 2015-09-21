@@ -42,6 +42,17 @@ app.get("/", function(req, res) {
     res.sendFile("../dist/index.html");
 });
 
+//针对manager 设置session  (以后启用用户系统全局使用)
+app.use(session({
+    store: new RedisStore(db_config.redisSession),
+    cookie:{maxAge: db_config.redisSession.ttl*1000, httpOnly: true},
+    name:"_angular_session",
+    resave:false,
+    saveUninitialized:true,
+    secret: setting.cookieSecret
+}));
+
+
 var tokenInvalid = function(req, res, next) {
     var bearerToken;
     var bearerHeader = req.headers["authorization"];
@@ -74,15 +85,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-//针对manager 设置session  (以后启用用户系统全局使用)
-app.use(session({
-    store: new RedisStore(db_config.redisSession),
-    cookie:{maxAge: db_config.redisSession.ttl*1000, httpOnly: true},
-    name:"_angular_session",
-    resave:false,
-    saveUninitialized:true,
-    secret: setting.cookieSecret
-}));
 
 process.on('uncaughtException', function(err) {
     console.log(err);
