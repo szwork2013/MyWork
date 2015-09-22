@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/authenticate', function(req, res) {
+    User = req.db.User;
     if(req.body.email==undefined || req.body.password==undefined){
         return res.json({
             type: false,
@@ -17,6 +18,7 @@ router.post('/authenticate', function(req, res) {
         } else {
             if (user) {
                 user.password=null;
+                req.session.user = user;
                 res.json({
                     type: true,
                     data: user,
@@ -66,3 +68,5 @@ router.post('/signin', function(req, res) {
         }
     });
 });
+
+module.exports = router;

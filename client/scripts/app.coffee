@@ -42,11 +42,11 @@ define(['common'
                           route : routes
                           publicRouter:publicRouter
                           routerRoot:routes.concat(publicRouter)
-                          domain:'http://localhost:3001',
+                          domain:'',
                           getRouter:getRouter
                           setRoutes:setRoutes
                           gallery:{
-                              product:'/api/gallery'
+                              product:'/other/gallery'
                           }
                           routeProvider:$routeProvider
                           initRouter:initRouter

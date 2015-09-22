@@ -194,27 +194,27 @@ define(['angularAMD'],(angularAMD)->
           ($http, $localStorage,SiteConfig)->
               baseUrl = SiteConfig.domain
               {
-                  save:(data, success, error)->
-                      $http.post(baseUrl + '/signin', data).success(success).error(error)
+                  signup:(data, success, error)->
+                      $http.post(baseUrl + '/public/signup', data).success(success).error(error)
                   signin:(data, success, error)->
-                      $http.post(baseUrl + '/authenticate', data).success(success).error(error)
+                      $http.post(baseUrl + '/public/authenticate', data).success(success).error(error)
                   lock:(success, error)->
-                      $http.get(baseUrl + '/lock').success(success).error(error)
+                      $http.get(baseUrl + '/user/lock').success(success).error(error)
                   promise:(success,error)->
-                      $http.get(baseUrl + '/promise').success(success).error(error)
+                      $http.get(baseUrl + '/user/promise').success(success).error(error)
                   unlock:(data, success, error)->
-                      $http.post(baseUrl + '/unlock', data).success(success).error(error)
+                      $http.post(baseUrl + '/user/unlock', data).success(success).error(error)
                   setting:(data, success, error)->
-                      $http.post(baseUrl + '/setting', data).success(success).error(error)
+                      $http.post(baseUrl + '/user/setting', data).success(success).error(error)
                   chpasswd:(data, success, error)->
-                      $http.post(baseUrl + '/chpasswd', data).success(success).error(error)
+                      $http.post(baseUrl + '/user/chpasswd', data).success(success).error(error)
                   me:(success, error)->
-                      $http.get(baseUrl + '/me').success(success).error(error)
+                      $http.get(baseUrl + '/user/me').success(success).error(error)
                   logout:(success,error)->
                       if SiteConfig.authMethod is 'token'
                         delete $localStorage.token
                       else
-                          $http.get(baseUrl + '/logout').success(success).error(error)
+                          $http.get(baseUrl + '/user/logout').success(success).error(error)
                       success()
               }
       ])

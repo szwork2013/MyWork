@@ -36,12 +36,6 @@ app.use(morgan("dev"));
 //启用Cookies
 app.use(cookieParser());
 
-
-app.use(express.static("../dist"));
-app.get("/", function(req, res) {
-    res.sendFile("../dist/index.html");
-});
-
 //针对manager 设置session  (以后启用用户系统全局使用)
 app.use(session({
     store: new RedisStore(db_config.redisSession),
@@ -51,6 +45,20 @@ app.use(session({
     saveUninitialized:true,
     secret: setting.cookieSecret
 }));
+
+app.use(function(req, res, next) {
+    req.db = db;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    res.set({"X-Powered-By":"Gsion"});
+    next();
+});
+
+app.use(express.static("../dist"));
+app.get("/", function(req, res) {
+    res.sendFile("../dist/index.html");
+});
 
 
 var tokenInvalid = function(req, res, next) {
@@ -73,19 +81,16 @@ var tokenInvalid = function(req, res, next) {
 }
 
 var cookieInvalid = function(req,res,next){
-
+    if(typeof req.session.user == 'undefined'){
+        res.sendStatus(403);
+    }else{
+        next();
+    }
 }
 
-app.use(function(req, res, next) {
-    req.db = db;
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
-    res.set({"X-Powered-By":"Gsion"});
-    next();
-});
-
-
+app.use('/public',route.public);
+app.use('/user',cookieInvalid,route.user);
+app.use('/other',cookieInvalid,route.other);
 process.on('uncaughtException', function(err) {
     console.log(err);
 });

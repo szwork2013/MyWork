@@ -7,7 +7,7 @@ define(['app','logger'],->
                     password: $scope.password,
                     realname:$scope.realname
                 }
-                Users.save(formData,(res)->
+                Users.signup(formData,(res)->
                     if res.type is false
                         logger.logError(res.data)
                     else

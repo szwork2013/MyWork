@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/api/gallery',function(req,res){
+router.get('/gallery',function(req,res){
+    Product = req.db.Product;
     var query = {start:0,end:20};
     if(parseInt(req.query.start)!=NaN){
         query.start = parseInt(req.query.start);
