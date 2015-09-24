@@ -6,18 +6,22 @@ var express     = require("express"),
     mongoose = require("mongoose"),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
+    objectid = require('objectid'),
     RedisStore = require('connect-redis')(session);
 
 var app        = express();
-port = 3001
+port = 3003
 var db = {
     User     : require('./models/User'),
-    Mail     : require('./models/Mail'),
     Product  : require('./models/Product'),
-    Promise  : require('./models/Promise')
+    Promise  : require('./models/Promise'),
+    Label    : require('./models/Label'),
+    Cat  	 : require('./models/Cat'),
+    Detail   : require('./models/Detail')
+    
 }
 // Connect to DB
-mongoose.connect('mongodb://localhost/zhuoku');
+mongoose.connect('mongodb://218.5.112.56/zhuoku');
 
 var db_config = require('./config/database'),
     setting = require('./config/setting');
@@ -25,7 +29,8 @@ var db_config = require('./config/database'),
 var route = {
     public : require('./routes/public'),
     other  : require('./routes/other'),
-    user   : require('./routes/user')
+    user   : require('./routes/user'),
+    api	   : require('./routes/api')
 }
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,11 +53,15 @@ app.use(session({
 
 app.use(function(req, res, next) {
     req.db = db;
+    req.objectid=objectid;
     res.set({"X-Powered-By":"Gsion"});
     next();
 });
 
 app.use(express.static("../dist"));
+//图片静态服务器
+app.use('/images',express.static(__dirname + '/../../wallpaper/images'));
+
 app.get("/", function(req, res) {
     res.sendFile("../dist/index.html");
 });
@@ -86,6 +95,7 @@ var cookieInvalid = function(req,res,next){
 }
 
 app.use('/public',route.public);
+app.use('/api',route.api);
 app.use('/user',cookieInvalid,route.user);
 app.use('/other',cookieInvalid,route.other);
 process.on('uncaughtException', function(err) {

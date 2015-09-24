@@ -11,5 +11,6 @@ define(["angularAMD"],(angularAMD)->
         {name:'profile',url:'/user/profile',text:'个人配置',icon:'fa-pencil',show:true,wide:false}
     ]
     angularAMD.authMethod = 'cookie'
+    angularAMD.domian = ''
     return angularAMD
 )

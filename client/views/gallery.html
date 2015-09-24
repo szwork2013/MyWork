@@ -30,31 +30,9 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <div class="col-md-4" data-ng-repeat="store in currentPageStores">
-                            <div class="panel panel-default ui-ribbon-container ui-ribbon-danger">
-                                <div class="ui-ribbon-wrapper">
-                                    <div class="ui-ribbon">
-                                        {{store.time}}
-                                    </div>
-                                </div>
-                                <div class="panel-heading"><span class="fa fa-camera"><a href="{{store.link}}" target="_blank">{{store.title}}</a></span></div>
-                                <div class="panel-body">
-                                    <div class="media">
-                                        <div class="media-body">
-
-                                            <ul class="list-unstyled list-info">
-                                                <li style="text-align: center;">
-                                                    <a href="{{store.link}}" target="_blank"><img ng-src="{{store.thumbnail}}"></a>
-                                                </li>
-                                                <li style="text-align: center;">
-                                                    <button type="button" class="btn btn-default btn-sm" style="margin-left: 2px;" data-ng-repeat="tag in store.tags">{{tag}}</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-sm-2 well-lg"  data-ng-repeat="store in currentPageStores">
+                                <a href="javascript:void(0);"><img ng-src="http://218.5.112.56:3003/{{store.thumbnail_local}}" width="180" height="132"></a>
                             </div>
-                        </div>
                     </div>
                     <footer class="table-footer">
                         <div class="row">
@@ -72,7 +50,7 @@
                                 <pagination class="pagination-sm"
                                             ng-model="currentPage"
                                             total-items="currentPageCount"
-                                            max-size="4"
+                                            max-size="10"
                                             ng-change="select(currentPage)"
                                             items-per-page="numPerPage"
                                             rotate="false"

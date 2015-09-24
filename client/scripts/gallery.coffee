@@ -49,8 +49,8 @@ define(["app","common","angular-resource"],->
         $scope.onOrderChange()
 
       # pagination
-      $scope.numPerPageOpt = [3, 6, 9, 12]
-      $scope.numPerPage = $scope.numPerPageOpt[2]
+      $scope.numPerPageOpt = [12, 18, 24, 30]
+      $scope.numPerPage = $scope.numPerPageOpt[3]
       $scope.currentPage = 1
       $scope.currentPageStores = []
       $scope.nextPre = ->

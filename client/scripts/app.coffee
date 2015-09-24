@@ -42,7 +42,7 @@ define(['common'
                           route : routes
                           publicRouter:publicRouter
                           routerRoot:routes.concat(publicRouter)
-                          domain:'',
+                          domain:angularAMD.domian,
                           getRouter:getRouter
                           setRoutes:setRoutes
                           gallery:{
