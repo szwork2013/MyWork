@@ -5,7 +5,51 @@ define(["app","common","angular-resource"],->
     ($scope, $filter,$resource,SiteConfig) ->
 # filter
       $scope.stores=[]
-      table = $resource('{domain}/other/gallery');
+      $scope.fieds = [
+        {
+          name:'name'
+          text:'标识'
+          type:'string'
+          show:true
+          link:false
+        }
+        {
+          name:'url'
+          text:'地址'
+          type:'string'
+          show:true
+          link:false
+        }
+        {
+          name:'text'
+          text:'文本'
+          type:'string'
+          show:true
+          link:false
+        }
+        {
+          name:'show'
+          text:'显示'
+          type:'boolean'
+          show:true
+          link:false
+        }
+        {
+          name:'icon'
+          text:'图标'
+          type:'string'
+          show:true
+          link:false
+        }
+        {
+          name:'wide'
+          text:'全屏展示'
+          type:'boolean'
+          show:true
+          link:false
+        }
+      ]
+      table = $resource('{domain}/user/promiseManager');
       $scope.searchKeywords = ''
       $scope.filteredStores = []
       $scope.row = ''
@@ -49,7 +93,7 @@ define(["app","common","angular-resource"],->
         $scope.onOrderChange()
 
       # pagination
-      $scope.numPerPageOpt = [12, 18, 24, 30]
+      $scope.numPerPageOpt = [5, 10, 20, 30]
       $scope.numPerPage = $scope.numPerPageOpt[1]
       $scope.currentPage = 1
       $scope.currentPageStores = []

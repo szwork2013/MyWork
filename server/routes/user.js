@@ -54,13 +54,14 @@ router.post('/unlock', function(req, res) {
 })
 
 router.get('/promise',function(req,res){
-    Promise =  req.db.Promise;
+    var Promise =  req.db.Promise;
     Promise.find({},function(err,docs){
         res.json(docs);
     });
 })
 
 router.post('/chpasswd', function(req, res) {
+    var User = req.db.User;
     var user = req.session.user;
     err = function(){
         res.json({type:false,massage:' 输入错误'});
@@ -68,11 +69,9 @@ router.post('/chpasswd', function(req, res) {
     if(typeof req.body.oldpassword == 'undefined' || typeof req.body.password == 'undefined'){
         return err();
     }
-
     if(typeof req.body.oldpassword.length <6 || typeof req.body.password.length <6){
         return err();
     }
-
     User.findOne({_id: user._id,password:req.body.oldpassword}, function(err, user) {
 
         if (err) {
@@ -96,6 +95,32 @@ router.post('/chpasswd', function(req, res) {
         }
     })
 })
+
+router.get('/promiseManager',function(req,res){
+    var Promise = req.db.Promise;
+    var query = {start:0,end:20};
+    if(parseInt(req.query.start)!=NaN){
+        query.start = parseInt(req.query.start);
+    }
+
+    if(parseInt(req.query.end)!=NaN){
+        query.end = parseInt(req.query.end);
+    }
+    query.condition={}
+    if(req.query.search!=undefined) {
+        query.condition = {text:new RegExp(req.query.search)};
+    }
+    query.limit = query.end - query.start;
+    Promise.find(query.condition).count().exec(function(errs,count){
+        Promise.find(query.condition).skip(query.start).limit(query.limit).exec(function(err,docs){
+            res.json({
+                type:true,
+                data:docs,
+                count:count
+            })
+        })
+    })
+});
 
 router.get('/logout',function(req,res){
     delete req.session.user;

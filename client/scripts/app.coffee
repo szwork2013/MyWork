@@ -42,12 +42,8 @@ define(['common'
                           route : routes
                           publicRouter:publicRouter
                           routerRoot:routes.concat(publicRouter)
-                          domain:angularAMD.domian,
                           getRouter:getRouter
                           setRoutes:setRoutes
-                          gallery:{
-                              product:'/other/gallery'
-                          }
                           routeProvider:$routeProvider
                           initRouter:initRouter
                           authMethod:angularAMD.authMethod
@@ -59,6 +55,8 @@ define(['common'
                       ($q, $location, $localStorage)->
                           {
                           'request':(config)->
+                              if config.url.indexOf('{domain}') >= 0
+                                config.url=config.url.replace('{domain}',angularAMD.domian)
                               config.headers = config.headers or {}
                               if $localStorage.token && angularAMD.authMethod is 'token'
                                   config.headers.Authorization = 'Bearer ' + $localStorage.token
