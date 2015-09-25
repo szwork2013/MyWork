@@ -12,6 +12,7 @@ define(["app","common","datatable"],->
           type:'string'
           show:true
           link:false
+          sort:true
         }
         {
           name:'url'
@@ -19,6 +20,7 @@ define(["app","common","datatable"],->
           type:'string'
           show:true
           link:false
+          sort:true
         }
         {
           name:'text'
@@ -26,6 +28,7 @@ define(["app","common","datatable"],->
           type:'string'
           show:true
           link:false
+          sort:false
         }
         {
           name:'show'
@@ -37,9 +40,10 @@ define(["app","common","datatable"],->
         {
           name:'icon'
           text:'图标'
-          type:'string'
+          type:'icon'
           show:true
           link:false
+          sort:false
         }
         {
           name:'wide'
@@ -47,6 +51,11 @@ define(["app","common","datatable"],->
           type:'boolean'
           show:true
           link:false
+          sort:true
         }
       ]
+      $scope.config.plus = {
+        edit:true
+        delete:true
+      }
   ])

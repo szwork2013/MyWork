@@ -22,12 +22,14 @@
         <th data-ng-repeat="key in fields|filter:{show:true}">
             <div class="th">
             {{key.text}}
-                <span class="fa fa-angle-up"
-                      data-ng-click=" order(key.name) "
-                      data-ng-class="{active: row == key.name}"></span>
-                <span class="fa fa-angle-down"
-                      data-ng-click=" order('-'+key.name) "
-                      data-ng-class="{active: row == '-'+key.name}"></span>
+                <div data-ng-if="key.sort">
+                    <span class="fa fa-angle-up"
+                          data-ng-click=" order(key.name) "
+                          data-ng-class="{active: row == key.name}"></span>
+                    <span class="fa fa-angle-down"
+                          data-ng-click=" order('-'+key.name) "
+                          data-ng-class="{active: row == '-'+key.name}"></span>
+                </div>
             </div>
         </th>
     </tr>
@@ -35,7 +37,13 @@
     <tbody>
     <tr data-ng-repeat="store in currentPageStores">
         <td data-ng-repeat="key in fields|filter:{show:true}" ng-switch="key.type">
-            <span ng-switch-when="image"><img ng-src="{{store[key.name]}}"/></span>
+            <img ng-switch-when="image" ng-src="{{store[key.name]}}"/>
+            <span ng-switch-when="boolean">{{store[key.name]?'是':'否'}}</span>
+            <span ng-switch-when="icon" class="fa {{store[key.name]}}"></span>
+            <span ng-switch-when="edit">
+                <button class="btn btn-success btn-sm" data-ng-if="datatable.plus.edit" data-ng-model="store" edittable="fields" type="table">编辑</button>
+                <button class="btn btn-danger btn-sm" data-ng-if="datatable.plus.delete">删除</button>
+            </span>
             <span ng-switch-default>
                 <a ng-href="{{store[key.link]}}" ng-if="key.link" ng-bind="store[key.name]"></a>
                 <span ng-if="key.link==false" ng-bind="store[key.name]"></span>
@@ -49,7 +57,7 @@
         <div class="col-md-6 page-num-info">
     <span>
         Show
-        <select data-ng-model="numPerPage"
+        <select class="ui-select" data-ng-model="numPerPage"
                 data-ng-options="num for num in numPerPageOpt"
                 data-ng-change="onNumPerPageChange()">
         </select>
@@ -60,7 +68,7 @@
             <pagination class="pagination-sm"
                         ng-model="currentPage"
                         total-items="currentPageCount"
-                        max-size="4"
+                        max-size="5"
                         ng-change="select(currentPage)"
                         items-per-page="numPerPage"
                         rotate="false"
