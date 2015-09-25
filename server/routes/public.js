@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/authenticate', function(req, res) {
-    User = req.db.User;
+    var User = req.db.User;
     if(req.body.email==undefined || req.body.password==undefined){
         return res.json({
             type: false,
@@ -18,7 +18,9 @@ router.post('/authenticate', function(req, res) {
         } else {
             if (user) {
                 user.password=null;
-                req.session.user = user;
+                if(typeof req.session != 'undefined') {
+                    req.session.user = user;
+                }
                 res.json({
                     type: true,
                     data: user,
@@ -34,7 +36,8 @@ router.post('/authenticate', function(req, res) {
     });
 });
 
-router.post('/signin', function(req, res) {
+router.post('/signup', function(req, res) {
+    var User = req.db.User;
     User.findOne({email: req.body.email}, function(err, user) {
         if (err) {
             res.json({
@@ -54,7 +57,7 @@ router.post('/signin', function(req, res) {
                 userModel.password = req.body.password;
                 userModel.realname=req.body.realname;
                 userModel.save(function(err, user) {
-                    user.token = jwt.sign(user, 'sdf1as5f4asdf46as5d4f65as4df65s4ad6f');
+                    user.token = req.jwt.sign(user, 'sdf1as5f4asdf46as5d4f65as4df65s4ad6f');
                     user.save(function(err, user1) {
                         user1.password=null;
                         res.json({

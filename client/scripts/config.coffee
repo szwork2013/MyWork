@@ -10,7 +10,7 @@ define(["angularAMD"],(angularAMD)->
         {name:'lock-screen',url:'/user/lock-screen',text:'锁屏',icon:'fa-pencil',show:true,wide:true}
         {name:'profile',url:'/user/profile',text:'个人配置',icon:'fa-pencil',show:true,wide:false}
     ]
-    angularAMD.authMethod = 'cookie'
-    angularAMD.domian = ''
+    angularAMD.authMethod = 'token'
+    angularAMD.domian = 'http://localhost:3003'
     return angularAMD
 )

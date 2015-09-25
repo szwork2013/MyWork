@@ -51,8 +51,12 @@ define(['angularAMD'],(angularAMD)->
     .directive('clockfusion', ['$interval', 'dateFilter'
         ($interval, dateFilter)->
             (scope, element, attrs)->
+                format = 'y-M-d H:mm:ss'
+                if attrs.clockfusion
+                    format = attrs.clockfusion
+
                 updateTime = ()->
-                    element.text(dateFilter(new Date(),attrs.clockfusion))
+                    element.text(dateFilter(new Date(),format))
                 updateTime()
                 stopTime = $interval(updateTime, 1000)
                 element.on('$destroy',()->

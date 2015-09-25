@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/gallery',function(req,res){
-    Product = req.db.Product;
+    var Product = req.db.Product;
     var query = {start:0,end:20};
     if(parseInt(req.query.start)!=NaN){
         query.start = parseInt(req.query.start);

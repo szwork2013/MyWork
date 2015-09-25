@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/me', function(req, res) {
-    user = req.session.user;
+    var user = req.session.user;
     if(user.lock == true) {
         res.sendStatus(423)
     }
@@ -13,8 +13,8 @@ router.get('/me', function(req, res) {
 });
 
 router.post('/setting', function(req, res) {
-    user = req.session.user;
-    User =  req.db.User;
+    var user = req.session.user;
+    var User =  req.db.User;
     user.setting = req.body;
     User.update({_id: user._id},{$set:{'setting':req.body}},{},function(err,docs){
         res.json('seccuss');
@@ -23,16 +23,16 @@ router.post('/setting', function(req, res) {
 
 
 router.get('/lock', function(req, res) {
-    User =  req.db.User;
-    user = req.session.user;
+    var User =  req.db.User;
+    var user = req.session.user;
     User.update({_id: user._id},{$set:{'lock':true}},{},function(err,docs){
         res.send(423);
     });
 })
 
 router.post('/unlock', function(req, res) {
-    User =  req.db.User;
-    user = req.session.user;
+    var User =  req.db.User;
+    var user = req.session.user;
     User.findOne({_id: user._id,password:req.body.password}, function(err, user) {
         if (err) {
             res.json({
@@ -61,7 +61,7 @@ router.get('/promise',function(req,res){
 })
 
 router.post('/chpasswd', function(req, res) {
-    user = req.session.user;
+    var user = req.session.user;
     err = function(){
         res.json({type:false,massage:' 输入错误'});
     }
@@ -101,4 +101,5 @@ router.get('/logout',function(req,res){
     delete req.session.user;
     res.sendStatus(200);
 })
+
 module.exports = router;
