@@ -54,11 +54,34 @@ router.post('/unlock', function(req, res) {
 })
 
 router.get('/promise',function(req,res){
+    var query = {}
+    if(typeof req.query._id != 'undefined'){
+        query._id = req.objectid(req.query._id);
+    }
     var Promise =  req.db.Promise;
-    Promise.find({},function(err,docs){
-        res.json(docs);
+    Promise.find(query,function(err,docs){
+        if(docs==null){
+            return res.sendStatus(201);
+        }
+        if(typeof query._id == 'undefined'){
+            res.json(docs);
+        }else{
+            res.json(docs[0]);
+        }
     });
 })
+
+router.post('/promise',function(req,res){
+    if(typeof req.body._id == 'undefined'){
+        return res.sendStatus(201);
+    }
+    var query =  {_id:req.objectid(req.body._id)};
+    var Promise = req.db.Promise;
+    Promise.where(query).update(req.body).exec(function(err,promise){
+        res.json(promise);
+    });
+});
+
 
 router.post('/chpasswd', function(req, res) {
     var User = req.db.User;

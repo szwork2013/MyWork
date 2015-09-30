@@ -1,4 +1,4 @@
-define(['angularAMD','angular-resource'],(angularAMD)->
+define(['angularAMD','angular-resource','logger'],(angularAMD)->
   angularAMD.directive('datatable',
     ()->
       {
@@ -84,8 +84,8 @@ define(['angularAMD','angular-resource'],(angularAMD)->
           ngModel:'='
         }
         link:(scope, element, attrs, ngModel,controller)->
-        controller:['$scope','$element','$modal'
-            ($scope,$element,$modal)->
+        controller:['$scope','$element','$modal','logger','$resource'
+            ($scope,$element,$modal,logger,$resource)->
               $element.on('click',()->
                 modalInstance = $modal.open(
                   templateUrl:"/views/edit/base-"+$element.attr('type')+".html"
@@ -99,6 +99,14 @@ define(['angularAMD','angular-resource'],(angularAMD)->
                       }
                   }
                 )
+                modalInstance.result.then ((store) ->
+                  Source = $resource('{domain}/user/promise');
+                  Source.get({_id:store._id}, (docs)->
+                      docs.abc = true
+                      docs.$save()
+                  );
+                  return
+                )
               )
         ]
       }
@@ -109,7 +117,9 @@ define(['angularAMD','angular-resource'],(angularAMD)->
         $scope.store = item.store
         $scope.cancel = ->
           $modalInstance.dismiss "cancel"
+          return
         $scope.submitForm = ->
-          console.log($scope.store)
+          $modalInstance.close $scope.store
+          return
   ])
 )
