@@ -28,6 +28,7 @@ require.config({
         "logger":"UI/UIService"
         'promise':'user/promise'
         'datatable':'shared/datatable'
+        'date':'element/date'
     },
     shim: {
         "angular":["jquery"]

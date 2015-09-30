@@ -8,9 +8,11 @@ define(['angularAMD'],(angularAMD)->
               ngModel: '='
             }
             templateUrl:(elem, attr)->
-              '/static/views/element/base-date.html'
+              'views/element/base-date.html'
             link:(scope, element, attrs)->
             controller:($scope,$filter)->
+                $scope.ngModel={}
+                $scope.status = {}
                 $scope.openStartTime = ($event)->
                   $event.preventDefault()
                   $event.stopPropagation()
@@ -68,12 +70,13 @@ define(['angularAMD'],(angularAMD)->
                       $scope.ngModel.endTime = +new Date()
 
 
-                  list = ['任意日期','今日','昨天','前天','本周','上周','本月','上月','过去三天','过去七天','最近一个月','最近三个月','最近一年']
-                  for i in [1..list.length]
-                    $scope.dateFilter_List = []
-                    $scope.dateFilter_List.push({id:i,text:list[i-1]})
-                  $scope.dateFilter = 1
-                  $scope.getdateFilter()
+                list = ['任意日期','今日','昨天','前天','本周','上周','本月','上月','过去三天','过去七天','最近一个月','最近三个月','最近一年']
+                $scope.dateFilter_List = []
+                for i in [1..list.length]
+                  console.log(i);
+                  $scope.dateFilter_List.push({id:i,text:list[i-1]})
+                $scope.dateFilter = 1
+                $scope.getdateFilter()
         }
     ])
 )

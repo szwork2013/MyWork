@@ -5,7 +5,7 @@
 
 <div class="modal-body">
     <div class="row">
-        <form name="form_constraints" class="form-validation" novalidate>
+        <form name="form_constraints" class="form-validation" novalidate ng-submit="submitForm()">
             <div class="form-group col-md-6" data-ng-repeat="key in fields" ng-switch="key.type">
                 <span ng-switch-when="string">
                     <label for="" data-ng-bind="key.text"></label>

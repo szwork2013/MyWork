@@ -1,5 +1,5 @@
 'use strict';
-define(["app","common","datatable"],->
+define(["app","common","datatable","date"],->
   [
     '$scope', '$filter'
     ($scope, $filter) ->

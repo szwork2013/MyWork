@@ -61,6 +61,9 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
             $scope.row = rowName
             $scope.onOrderChange()
           # pagination
+          $scope.$on('remove',(event,index)->
+            $scope.currentPageStores.splice(index)
+          )
           if typeof $scope.datatable.sizelist is 'undefined'
             $scope.numPerPageOpt = [3, 6, 9, 12]
           else
@@ -99,27 +102,85 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
                       }
                   }
                 )
-                modalInstance.result.then ((store) ->
-                  Source = $resource('{domain}/user/promise');
-                  Source.get({_id:store._id}, (docs)->
-                      docs.abc = true
-                      docs.$save()
-                  );
+                modalInstance.result.then ((res) ->
+                  if res.seccuss is true
+                    logger.logSuccess('保存成功!')
                   return
                 )
               )
         ]
       }
+  ).directive('deltable',
+    ()->
+      {
+      restrict: 'EAC'
+      require:'ngModel'
+      scope: {
+        ngModel:'='
+        topindex:'@'
+      }
+      link:(scope, element, attrs, ngModel,controller)->
+      controller:['$scope','$element','$modal','logger','$resource'
+        ($scope,$element,$modal,logger,$resource)->
+          $element.on('click',()->
+            modalInstance = $modal.open(
+              templateUrl:"/views/edit/base-"+$element.attr('type')+".html"
+              controller: $element.attr('type')+'Ctrl'
+              resolve: {
+                item: ()->
+                  {
+                    store:$scope.ngModel
+                  }
+              }
+            )
+            modalInstance.result.then ((res) ->
+              $scope.$emit('remove',$scope.topindex)
+              logger.logSuccess('保存成功!')
+              return
+            )
+          )
+      ]
+      }
   ).controller('tableEditCtrl',[
-      '$scope','$modalInstance','item'
-      ($scope,$modalInstance,item)->
+      '$scope','$modalInstance','item','$resource'
+      ($scope,$modalInstance,item,$resource)->
         $scope.fields = item.fields
-        $scope.store = item.store
+        Source = $resource('{domain}/user/promise')
+        Source.get({_id:item.store._id}, (docs)->
+          $scope.store = docs
+        )
         $scope.cancel = ->
           $modalInstance.dismiss "cancel"
           return
+
         $scope.submitForm = ->
-          $modalInstance.close $scope.store
+          store = $scope.store.toJSON()
+          $scope.store.$save((res,header)->
+            res = res.toJSON()
+            if res.seccuss is true
+              for key,value of store
+                  item.store[key] = value
+            $modalInstance.close res
+          )
           return
+  ]).controller('confirmCtrl',[
+    '$scope','$modalInstance','item','$resource'
+    ($scope,$modalInstance,item,$resource)->
+      $scope.fields = item.fields
+      Source = $resource('{domain}/user/promise',{},{remove: {method:'DELETE', params:{_id:'@_id'}}})
+      Source.get({_id:item.store._id}, (docs)->
+        $scope.store = docs
+      )
+      $scope.cancel = ->
+        $modalInstance.dismiss "cancel"
+        return
+      $scope.submitForm = ->
+        store = $scope.store.toJSON()
+        $scope.store.$remove((res,header)->
+          res = res.toJSON()
+          $modalInstance.close store
+        )
+        return
   ])
 )
+

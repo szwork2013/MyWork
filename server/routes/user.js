@@ -77,11 +77,20 @@ router.post('/promise',function(req,res){
     }
     var query =  {_id:req.objectid(req.body._id)};
     var Promise = req.db.Promise;
-    Promise.where(query).update(req.body).exec(function(err,promise){
-        res.json(promise);
+    Promise.update(query,{$set:req.body},{},function(err,docs){
+        res.json({'seccuss':true});
     });
 });
 
+router.delete('/promise',function(req,res){
+    if(typeof req.query._id == 'undefined'){
+        return res.sendStatus(201);
+    }
+    var query =  {_id:req.objectid(req.query._id)};
+    var Promise = req.db.Promise;
+    Promise.remove(query).exec();
+    res.json({'seccuss':true});
+});
 
 router.post('/chpasswd', function(req, res) {
     var User = req.db.User;
