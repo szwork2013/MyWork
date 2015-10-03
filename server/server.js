@@ -22,7 +22,7 @@ var db = {
 
 }
 // Connect to DB
-mongoose.connect('mongodb://218.5.112.56/zhuoku');
+mongoose.connect('mongodb://localhost/zhuoku');
 
 var db_config = require('./config/database'),
     setting = require('./config/setting');

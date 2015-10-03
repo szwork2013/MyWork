@@ -13,7 +13,7 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
         controller:($scope,$resource,$attrs)->
           $scope.fields = angular.copy($scope.datatable.fields)
           $scope.stores=[]
-          table = $resource($scope.datatable.url)
+          $scope.Source = $resource($scope.datatable.url,{},{remove: {method:'DELETE', params:{_id:'@_id'}}})
           $scope.searchKeywords = ''
           $scope.filteredStores = []
           $scope.row = ''
@@ -36,7 +36,7 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
               query.search = $scope.searchKeywords
             if $scope.row isnt ''
               query.order = $scope.row
-            store = table.get(query,->
+            store = $scope.Source.get(query,->
               $scope.currentPageStores = store.data
               $scope.currentPageCount = store.count
             )
@@ -64,6 +64,9 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
           $scope.$on('remove',(event,index)->
             $scope.currentPageStores.splice(index)
           )
+          $scope.$on('create',(event,store)->
+            $scope.currentPageStores.push(store)
+          )
           if typeof $scope.datatable.sizelist is 'undefined'
             $scope.numPerPageOpt = [3, 6, 9, 12]
           else
@@ -81,9 +84,10 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
     ()->
       {
         restrict: 'EAC'
-        require:'ngModel'
+        require:'^ngModel'
         scope: {
           edittable: '='
+          source:'='
           ngModel:'='
         }
         link:(scope, element, attrs, ngModel,controller)->
@@ -99,13 +103,14 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
                       {
                         fields:$scope.edittable
                         store:$scope.ngModel
+                        Source:$scope.source
                       }
                   }
                 )
                 modalInstance.result.then ((res) ->
-                  if res.seccuss is true
+                    $scope.$emit('create',res.data)
                     logger.logSuccess('保存成功!')
-                  return
+                    return
                 )
               )
         ]
@@ -117,11 +122,12 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
       require:'ngModel'
       scope: {
         ngModel:'='
+        source:'='
         topindex:'@'
       }
       link:(scope, element, attrs, ngModel,controller)->
-      controller:['$scope','$element','$modal','logger','$resource'
-        ($scope,$element,$modal,logger,$resource)->
+      controller:['$scope','$element','$modal','logger'
+        ($scope,$element,$modal,logger)->
           $element.on('click',()->
             modalInstance = $modal.open(
               templateUrl:"/views/edit/base-"+$element.attr('type')+".html"
@@ -130,6 +136,7 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
                 item: ()->
                   {
                     store:$scope.ngModel
+                    Source:$scope.source
                   }
               }
             )
@@ -142,13 +149,16 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
       ]
       }
   ).controller('tableEditCtrl',[
-      '$scope','$modalInstance','item','$resource'
-      ($scope,$modalInstance,item,$resource)->
+      '$scope','$modalInstance','item'
+      ($scope,$modalInstance,item)->
         $scope.fields = item.fields
-        Source = $resource('{domain}/user/promise')
-        Source.get({_id:item.store._id}, (docs)->
-          $scope.store = docs
-        )
+        $scope.backup = item.store
+        if typeof item.store is 'undefined'
+            $scope.store = new item.Source()
+        else
+            item.Source.get({_id:item.store._id}, (docs)->
+              $scope.store = docs
+            )
         $scope.cancel = ->
           $modalInstance.dismiss "cancel"
           return
@@ -158,17 +168,17 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
           $scope.store.$save((res,header)->
             res = res.toJSON()
             if res.seccuss is true
-              for key,value of store
-                  item.store[key] = value
+                if typeof item.store isnt 'undefined'
+                  for key,value of store
+                      item.store[key] = value
             $modalInstance.close res
           )
           return
   ]).controller('confirmCtrl',[
-    '$scope','$modalInstance','item','$resource'
-    ($scope,$modalInstance,item,$resource)->
+    '$scope','$modalInstance','item'
+    ($scope,$modalInstance,item)->
       $scope.fields = item.fields
-      Source = $resource('{domain}/user/promise',{},{remove: {method:'DELETE', params:{_id:'@_id'}}})
-      Source.get({_id:item.store._id}, (docs)->
+      item.Source.get({_id:item.store._id}, (docs)->
         $scope.store = docs
       )
       $scope.cancel = ->

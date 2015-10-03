@@ -4,7 +4,7 @@ define(["app","common","datatable","date"],->
     '$scope', '$filter'
     ($scope, $filter) ->
       $scope.config={}
-      $scope.config.url = '{domain}/user/promiseManager'
+      $scope.config.url = '{domain}/user/promise'
       $scope.config.fields = [
         {
           name:'name'

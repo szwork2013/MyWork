@@ -43,11 +43,11 @@ define(['angularAMD'],(angularAMD)->
                         out.push({text:item,link:lo})
                     out
             settingRouter = (pro_res)->
-                SiteConfig.initRouter(pro_res)
-                $scope.route  = pro_res
-                $scope.$broadcast('reload-nav',pro_res)
+                SiteConfig.initRouter(pro_res.data)
+                $scope.route  = pro_res.data
+                $scope.$broadcast('reload-nav',pro_res.data)
                 SiteConfig.routeProvider
-                .when('/', { redirectTo: pro_res[0].url} )
+                .when('/', { redirectTo: pro_res.data[0].url} )
                 .otherwise( redirectTo: '/404' )
                 if path() is SiteConfig.getRouter('signin').url
                     $location.path('/')
