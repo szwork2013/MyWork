@@ -108,8 +108,9 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
                   }
                 )
                 modalInstance.result.then ((res) ->
-                    $scope.$emit('create',res.data)
-                    logger.logSuccess('保存成功!')
+                    if res.method is 'create'
+                      $scope.$emit('create',res.data)
+                    logger.logSuccess(res.message)
                     return
                 )
               )
@@ -141,8 +142,9 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
               }
             )
             modalInstance.result.then ((res) ->
-              $scope.$emit('remove',$scope.topindex)
-              logger.logSuccess('保存成功!')
+              if res.type is true
+                $scope.$emit('remove',$scope.topindex)
+              logger.logSuccess(res.message)
               return
             )
           )
@@ -167,10 +169,14 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
           store = $scope.store.toJSON()
           $scope.store.$save((res,header)->
             res = res.toJSON()
-            if res.seccuss is true
+            if res.type is true
                 if typeof item.store isnt 'undefined'
                   for key,value of store
-                      item.store[key] = value
+                    if value is 'true'
+                      value=true
+                    if value is 'false'
+                      value=false
+                    item.store[key] = value
             $modalInstance.close res
           )
           return
@@ -188,7 +194,7 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
         store = $scope.store.toJSON()
         $scope.store.$remove((res,header)->
           res = res.toJSON()
-          $modalInstance.close store
+          $modalInstance.close res
         )
         return
   ])

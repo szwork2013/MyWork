@@ -96,8 +96,10 @@ router.post('/promise',function(req,res){
     Promise.update(query,{$set:req.body},{upsert:true},function(err,docs){
         if(docs.nModified==0 && typeof docs.upserted != 'undefined'){
             req.body._id = docs.upserted[0]._id;
+            return res.json({'type':true,method:'create','message':'新建成功',data:req.body});
         }
-        res.json({'type':true,'message':'修改成功',data:req.body});
+        res.json({'type':true,method:'modify','message':'修改成功',data:req.body});
+
     });
 });
 
@@ -108,7 +110,7 @@ router.delete('/promise',function(req,res){
     var query =  {_id:req.objectid(req.query._id)};
     var Promise = req.db.Promise;
     Promise.remove(query).exec();
-    res.json({'seccuss':true});
+    res.json({'type':true,method:'delete','message':'删除成功!'});
 });
 
 router.post('/chpasswd', function(req, res) {
