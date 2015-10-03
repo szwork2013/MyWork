@@ -13,7 +13,7 @@ router.get('/gallery',function(req,res){
     }
     query.condition={}
     if(req.query.search!=undefined) {
-        query.condition = {title:new RegExp(req.query.search)};
+        query.condition = {$or:[{title:new RegExp(req.query.search)},{tags:req.query.search}]};
     }
     query.limit = query.end - query.start;
     Product.find(query.condition).count().exec(function(errs,count){

@@ -1,8 +1,8 @@
 'use strict';
 define(["app","common","angular-resource","hightGallery","hightGallery-thumbnail","hightGallery-fullscreen"],->
   [
-    '$scope', '$filter','$http','$timeout'
-    ($scope, $filter,$http,$timeout) ->
+    '$scope', '$filter','$http'
+    ($scope, $filter,$http) ->
 # filter
       $scope.config={}
       $scope.config.url = '{domain}/other/gallery'
@@ -24,6 +24,7 @@ define(["app","common","angular-resource","hightGallery","hightGallery-thumbnail
                         loop:false
                         escKey:true
                         dynamic: true
+                        hideBarsDelay:2000
                         dynamicEl:dynamicEl
                     }
                 )
