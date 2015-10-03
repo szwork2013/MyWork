@@ -1,32 +1,31 @@
-
+<form name="form_constraints" class="form-validation" novalidate ng-submit="submitForm()">
 <div class="modal-header">
     <h3>{{backup?'编辑:'+backup.text:'新增'}}</h3>
 </div>
 
 <div class="modal-body">
     <div class="row">
-        <form name="form_constraints" class="form-validation" novalidate ng-submit="submitForm()">
+
             <div class="form-group col-md-6" data-ng-repeat="key in fields" ng-switch="key.type">
                 <span ng-switch-when="string">
                     <label for="" data-ng-bind="key.text"></label>
-                    <input type="text" class="form-control" data-ng-model="store[key.name]">
+                    <input type="text" class="form-control" data-ng-model="store[key.name]" required="{{key.required}}">
                 </span>
                 <span ng-switch-when="icon">
                     <label for="" data-ng-bind="key.text"></label>
-                    <input type="text" class="form-control" data-ng-model="store[key.name]">
+                    <input type="text" class="form-control" data-ng-model="store[key.name]" required="{{key.required}}">
                 </span>
                 <span ng-switch-when="boolean">
                     <label for="" data-ng-bind="key.text"></label>
-                    <input type="text" class="form-control" data-ng-model="store[key.name]">
+                    <input type="text" class="form-control" data-ng-model="store[key.name]" required="{{key.required}}">
                 </span>
                 <span></span>
             </div>
-        </form>
     </div>
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="submitForm()">保存</button>
+    <button type="submit" class="btn btn-primary" data-ng-disabled="form_constraints.$valid==false">保存</button>
     <button class="btn btn-warning" ng-click="cancel()">取消</button>
 </div>
-
+</form>

@@ -1,5 +1,5 @@
 'use strict';
-define(["app","common","datatable","date"],->
+define(["app","common","datatable"],->
   [
     '$scope', '$filter'
     ($scope, $filter) ->
@@ -13,6 +13,7 @@ define(["app","common","datatable","date"],->
           show:true
           link:false
           sort:true
+          required:true
         }
         {
           name:'url'
@@ -21,6 +22,7 @@ define(["app","common","datatable","date"],->
           show:true
           link:false
           sort:true
+          required:true
         }
         {
           name:'text'
@@ -29,6 +31,7 @@ define(["app","common","datatable","date"],->
           show:true
           link:false
           sort:false
+          required:true
         }
         {
           name:'show'
@@ -36,6 +39,7 @@ define(["app","common","datatable","date"],->
           type:'boolean'
           show:true
           link:false
+          required:true
         }
         {
           name:'icon'
@@ -44,6 +48,7 @@ define(["app","common","datatable","date"],->
           show:true
           link:false
           sort:false
+          required:true
         }
         {
           name:'wide'
@@ -52,6 +57,7 @@ define(["app","common","datatable","date"],->
           show:true
           link:false
           sort:true
+          required:true
         }
       ]
       $scope.config.plus = {

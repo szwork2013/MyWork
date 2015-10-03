@@ -17,7 +17,6 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
           $scope.searchKeywords = ''
           $scope.filteredStores = []
           $scope.row = ''
-
           if typeof $scope.datatable.plus isnt 'undefined'
             $scope.fields.push({
                 name:'edit'
@@ -84,7 +83,7 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
     ()->
       {
         restrict: 'EAC'
-        require:'^ngModel'
+        require:['^ngModel']
         scope: {
           edittable: '='
           source:'='
@@ -120,7 +119,7 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
     ()->
       {
       restrict: 'EAC'
-      require:'ngModel'
+      require:['^ngModel']
       scope: {
         ngModel:'='
         source:'='
