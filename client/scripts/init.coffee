@@ -31,6 +31,7 @@ require.config({
         'date':'element/date'
         'hightGallery':'../bower_components/lightgallery/dist/js/lightgallery.min'
         'hightGallery-thumbnail':'../bower_components/lightgallery/dist/js/lg-thumbnail.min'
+        'hightGallery-fullscreen':'../bower_components/lightgallery/dist/js/lg-fullscreen.min'
     },
     shim: {
         "angular":["jquery"]

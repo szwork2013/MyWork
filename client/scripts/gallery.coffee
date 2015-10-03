@@ -1,5 +1,5 @@
 'use strict';
-define(["app","common","angular-resource","hightGallery","hightGallery-thumbnail"],->
+define(["app","common","angular-resource","hightGallery","hightGallery-thumbnail","hightGallery-fullscreen"],->
   [
     '$scope', '$filter','$http','$timeout'
     ($scope, $filter,$http,$timeout) ->
@@ -7,21 +7,26 @@ define(["app","common","angular-resource","hightGallery","hightGallery-thumbnail
       $scope.config={}
       $scope.config.url = '{domain}/other/gallery'
       $scope.config.sizelist = [12,18,24,30]
-      $scope.config.mainShow = true
-      $scope.config.rangeid = +new Date
       $scope.config.viewDetail = (store)->
         $http.post('{domain}/other/detail',{product:store._id}).success(
             (detail)->
                 dynamicEl = []
                 for item in detail.data
-                    dynamicEl.push({src:item.local,thumb:item.thumbnail_local})
-                $('#'+$scope.config.rangeid).lightGallery(
+                    dynamicEl.push(
+                        {
+                            src:'http://218.5.112.56:3003/'+item.local,
+                            thumb:'http://218.5.112.56:3003/'+item.thumbnail_local
+                            subHtml:'<p>'+store.title+'</p>'+'<p>尺寸:'+item.width+'*'+item.height+'</p>'
+                        }
+                    )
+                $('#'+store._id).lightGallery(
                     {
+                        loop:false
+                        escKey:true
                         dynamic: true
                         dynamicEl:dynamicEl
                     }
                 )
                 $scope.config.detailView = detail.data
-                $scope.config.mainShow = false
         )
   ])

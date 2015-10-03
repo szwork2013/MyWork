@@ -18,10 +18,9 @@
     </div>
 </div>
 <div class="panel-body">
-    <div  id="{{datatable.rangeid}}"></div>
     <div class="panel panel-info" data-ng-if="false">
         <div class="panel-heading">
-            <a href="javascript:;" class="btn-icon btn-icon-round btn-icon-sm bg-warning" data-ng-click="datatable.mainShow=true">
+            <a href="javascript:;" class="btn-icon btn-icon-round btn-icon-sm bg-warning">
                 <i class="fa fa-mail-reply"></i>
             </a>
         </div>
@@ -37,7 +36,9 @@
         </div>
     </div>
     <div class="col-sm-2 well-lg"  data-ng-repeat="store in currentPageStores">
-        <a href="javascript:void(0);" data-ng-click="datatable.viewDetail(store)"><img ng-src="http://218.5.112.56:3003/{{store.thumbnail_local}}" width="180" height="132"></a>
+        <a href="javascript:void(0);" data-ng-click="datatable.viewDetail(store)" id="{{store._id}}">
+            <img ng-src="http://218.5.112.56:3003/{{store.thumbnail_local}}" width="180" height="132">
+        </a>
     </div>
 </div>
 <footer class="table-footer">
