@@ -35,7 +35,8 @@
     "ngInfiniteScroll":"~1.2.1",
     "highcharts-ng":"0.0.11",
     "highcharts":"latest",
-    "angularAMD":"0.2.1"
+    "angularAMD":"0.2.1",
+    "lightgallery":"1.2.5"
   },
   "devDependencies": {
     "holderjs": "~2.3.1",

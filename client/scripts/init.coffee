@@ -29,6 +29,8 @@ require.config({
         'promise':'user/promise'
         'datatable':'shared/datatable'
         'date':'element/date'
+        'hightGallery':'../bower_components/lightgallery/dist/js/lightgallery.min'
+        'hightGallery-thumbnail':'../bower_components/lightgallery/dist/js/lg-thumbnail.min'
     },
     shim: {
         "angular":["jquery"]

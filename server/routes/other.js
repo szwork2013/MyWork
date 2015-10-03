@@ -27,4 +27,21 @@ router.get('/gallery',function(req,res){
     })
 });
 
+router.post('/detail',function(req,res){
+    var Detail = req.db.Detail;
+    var query={condition:{}};
+    if(typeof req.body.product=='undefined') {
+        return res.json({type:false});
+    }
+    query.condition.product = req.objectid(req.body.product);
+    Detail.find(query.condition).count().exec(function(errs,count){
+        Detail.find(query.condition).exec(function(err,docs){
+            res.json({
+                type:true,
+                data:docs,
+                count:count
+            })
+        })
+    })
+});
 module.exports = router;
