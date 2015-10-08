@@ -1,4 +1,4 @@
-define(['angularAMD','angular-resource','logger'],(angularAMD)->
+define(['angularAMD','angular-resource','logger','date'],(angularAMD)->
   angularAMD.directive('datatable',
     ()->
       {

@@ -73,10 +73,29 @@ define(['angularAMD'],(angularAMD)->
                 list = ['任意日期','今日','昨天','前天','本周','上周','本月','上月','过去三天','过去七天','最近一个月','最近三个月','最近一年']
                 $scope.dateFilter_List = []
                 for i in [1..list.length]
-                  console.log(i);
                   $scope.dateFilter_List.push({id:i,text:list[i-1]})
                 $scope.dateFilter = 1
                 $scope.getdateFilter()
+        }
+    ])
+    .directive('gstime', [ ->
+        {
+            restrict: 'AE'
+            transclude: true
+            require: '^ngModel'
+            scope: {
+                ngModel: '='
+            }
+            templateUrl:(elem, attr)->
+                'views/element/base-gstime.html'
+            link:(scope, element, attrs)->
+            controller:($scope,$filter)->
+                $scope.config = {isopen:false,format:"Y-m-d"}
+                $scope.config.open = ($event)->
+                    $event.preventDefault()
+                    $event.stopPropagation()
+                    $scope.config.isopen = !0
+
         }
     ])
 )

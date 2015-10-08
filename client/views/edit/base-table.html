@@ -21,7 +21,12 @@
                 </span>
                 <span ng-switch-when="tags">
                     <label for="" data-ng-bind="key.text"></label>
-                    <tags-input ng-model="store[key.name]"  class="ui-tags-input" min-length="1" placeholder="添加标签"></tags-input>
+                    <tags-input data-ng-model="store[key.name]"  class="ui-tags-input" min-length="1" placeholder="添加标签"></tags-input>
+                </span>
+                <span ng-switch-when="date">
+                    <label for="" data-ng-bind="key.text"></label>
+                    <div class="input-group ui-datepicker" data-ng-model="store[key.name]" gstime>
+                    </div>
                 </span>
             </div>
     </div>
