@@ -5,6 +5,7 @@ define(['common'
         'shared/Nav'
         'UI/UIDirective'
         'main'
+
     ],
     (angularAMD)->
         app = angular.module('app', [
@@ -12,6 +13,7 @@ define(['common'
             'ngAnimate'
             'ui.bootstrap'
             'ngStorage'
+            'ngTagsInput'
         ])
         .config([
               '$routeProvider','$httpProvider','$provide'

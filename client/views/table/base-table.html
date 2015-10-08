@@ -43,6 +43,7 @@
             <span ng-switch-when="icon" class="fa {{store[key.name]}}"></span>
             <span ng-switch-when="edit">
                 <button class="btn btn-success btn-sm" data-ng-if="datatable.plus.edit" data-ng-model="store" edittable="fields" type="table" source="Source">编辑</button>
+                <button class="btn btn-success btn-sm" data-ng-if="datatable.plus.viewGallery" ng-click="datatable.viewDetail(store)" id="{{store._id}}">查看图集</button>
                 <button class="btn btn-danger btn-sm" data-ng-if="datatable.plus.delete" data-ng-model="store" deltable type="confirm" topindex="{{topindex}}" source="Source">删除</button>
             </span>
             <span ng-switch-default>

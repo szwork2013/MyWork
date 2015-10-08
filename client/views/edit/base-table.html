@@ -19,13 +19,16 @@
                     <label for="" data-ng-bind="key.text"></label>
                     <input type="text" class="form-control" data-ng-model="store[key.name]" required="{{key.required}}">
                 </span>
-                <span></span>
+                <span ng-switch-when="tags">
+                    <label for="" data-ng-bind="key.text"></label>
+                    <tags-input ng-model="store[key.name]"  class="ui-tags-input" min-length="1" placeholder="添加标签"></tags-input>
+                </span>
             </div>
     </div>
 
 </div>
 <div class="modal-footer">
     <button type="submit" class="btn btn-primary" data-ng-disabled="form_constraints.$valid==false">保存</button>
-    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    <a class="btn btn-warning" ng-click="cancel()">取消</a>
 </div>
 </form>

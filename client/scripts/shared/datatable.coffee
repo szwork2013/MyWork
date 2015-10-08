@@ -165,20 +165,25 @@ define(['angularAMD','angular-resource','logger'],(angularAMD)->
           return
 
         $scope.submitForm = ->
-          store = $scope.store.toJSON()
-          $scope.store.$save((res,header)->
-            res = res.toJSON()
-            if res.type is true
-                if typeof item.store isnt 'undefined'
-                  for key,value of store
-                    if value is 'true'
-                      value=true
-                    if value is 'false'
-                      value=false
-                    item.store[key] = value
-            $modalInstance.close res
-          )
-          return
+              for field in item.fields
+                  if field.type  is 'tags'
+                      $scope.store[field.name]=$scope.store[field.name].map((tag)->
+                        tag.text
+                      )
+              store = $scope.store.toJSON()
+              $scope.store.$save((res,header)->
+                    res = res.toJSON()
+                    if res.type is true
+                        if typeof item.store isnt 'undefined'
+                          for key,value of store
+                            if value is 'true'
+                              value=true
+                            if value is 'false'
+                              value=false
+                            item.store[key] = value
+                    $modalInstance.close res
+              )
+              return
   ]).controller('confirmCtrl',[
     '$scope','$modalInstance','item'
     ($scope,$modalInstance,item)->

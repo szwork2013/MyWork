@@ -32,12 +32,14 @@ require.config({
         'hightGallery':'../bower_components/lightgallery/dist/js/lightgallery.min'
         'hightGallery-thumbnail':'../bower_components/lightgallery/dist/js/lg-thumbnail.min'
         'hightGallery-fullscreen':'../bower_components/lightgallery/dist/js/lg-fullscreen.min'
+        'ngTagsInput':'../bower_components/ng-tags-input/ng-tags-input'
     },
     shim: {
         "angular":["jquery"]
         "angularAMD": ["angular"]
         "angular-route": ["angular"]
         "angular-animate":['angular']
+        "ngTagsInput":['angular']
         "promise":['angular']
         'ngload': ['angularAMD']
         'bootstrap':['angular']

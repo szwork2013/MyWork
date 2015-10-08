@@ -5,6 +5,7 @@ define(['angularAMD'
         'ngStorage'
         'bootstrap'
         'slimscroll'
+        'ngTagsInput'
     ],(angularAMD)->
     'use strict'
     return angularAMD
